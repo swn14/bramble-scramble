@@ -23,19 +23,7 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
-      - name: Install step
-        run: "npm install"
-
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "sheldonnofe-bramble-scr-68"
-          entrypoint: "app.js"
-          root: ""
-          
-          
