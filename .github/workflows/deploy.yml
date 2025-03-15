@@ -27,3 +27,4 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "sheldonnofe-bramble-scr-68"
+          entrypoint: "app.ts"
