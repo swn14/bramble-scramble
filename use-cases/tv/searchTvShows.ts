@@ -8,7 +8,7 @@ import { load } from "https://deno.land/std@0.186.0/dotenv/mod.ts";
  * @returns {Promise<Result<SearchResult<TvShow>>>}
  */
 export async function searchTvShows(searchTerm: string, page = 1) {
-  const env = (await load()) ?? Deno.env.toObject();
+  const env = Deno.env.toObject();
   let TMDB_API_KEY = env.TMDB_API_KEY;
   const options = {
     method: "GET",
