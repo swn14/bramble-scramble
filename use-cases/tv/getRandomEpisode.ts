@@ -11,11 +11,12 @@ import { load } from "https://deno.land/std@0.186.0/dotenv/mod.ts";
  */
 export async function getRandomEpisode(seriesId: number) {
   const env = await load();
+  let TMDB_API_KEY = env.TMDB_API_KEY;
   const options = {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${env.TMDB_API_KEY}`,
+      Authorization: `Bearer ${TMDB_API_KEY}`,
     },
   };
   try {

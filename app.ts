@@ -1,51 +1,48 @@
 // Import Deno standard library modules
-import { serve } from "https://deno.land/std@0.186.0/http/server.ts";
 import { load } from "https://deno.land/std@0.186.0/dotenv/mod.ts";
 import { getRandomEpisode } from "./use-cases/tv/getRandomEpisode.ts";
 import { searchTvShows } from "./use-cases/tv/searchTvShows.ts";
+import { Application, Router } from "https://deno.land/x/oak/mod.ts";
+import { rateLimit } from "./middleware/rateLimit.ts";
 
 // Load environment variables
 const env = await load();
-const PORT = env.PORT || 3000;
+const PORT = parseInt(env.PORT) || 3000;
 
 // API Routes
-async function handler(req: Request) {
-  const url = new URL(req.url);
+const router = new Router();
 
-  if (url.pathname === "/api/tv/random-episode" && req.method === "GET") {
-    const response = await getRandomEpisode(
-      parseInt(url.searchParams.get("seriesId") ?? "")
+router.get("/api/tv/random-episode", async (ctx) => {
+  const url = new URL(ctx.request.url);
+  const response = await getRandomEpisode(
+    parseInt(url.searchParams.get("seriesId") ?? "")
+  );
+  ctx.response.body = response;
+});
+
+router.get("/api/tv/search", async (ctx) => {
+  const url = new URL(ctx.request.url);
+  const searchTerm = url.searchParams.get("query");
+  let pageNumber = 1;
+
+  if (!searchTerm) {
+    return new Response(
+      JSON.stringify({ error: "Query parameter is required" }),
+      { status: 400 }
     );
-    return new Response(JSON.stringify(response), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+  }
+  if (url.searchParams.get("pageNumber")) {
+    pageNumber = parseInt(url.searchParams.get("pageNumber") ?? "") ?? 1;
   }
 
-  if (url.pathname.startsWith("/api/tv/search") && req.method === "GET") {
-    const searchTerm = url.searchParams.get("query");
-    let pageNumber = 1;
-
-    if (!searchTerm) {
-      return new Response(
-        JSON.stringify({ error: "Query parameter is required" }),
-        { status: 400 }
-      );
-    }
-    if (url.searchParams.get("pageNumber")) {
-      pageNumber = parseInt(url.searchParams.get("pageNumber") ?? "") ?? 1;
-    }
-
-    const response = await searchTvShows(searchTerm, pageNumber);
-    return new Response(JSON.stringify(response), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-
-  return new Response(JSON.stringify({ error: "Not Found" }), { status: 404 });
-}
+  const response = await searchTvShows(searchTerm, pageNumber);
+  ctx.response.body = response;
+});
 
 // Start the server
+const app = new Application();
+app.use(rateLimit);
+app.use(router.routes());
+app.use(router.allowedMethods());
 console.log(`Server running on port ${PORT}`);
-serve(handler, { port: Number(PORT) });
+await app.listen({ port: PORT });
