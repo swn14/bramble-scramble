@@ -10,7 +10,7 @@ import { load } from "https://deno.land/std@0.186.0/dotenv/mod.ts";
  * @returns {Promise<Result<RandomEpisode>>}
  */
 export async function getRandomEpisode(seriesId: number) {
-  const env = await load();
+  const env = (await load()) ?? Deno.env.toObject();
   let TMDB_API_KEY = env.TMDB_API_KEY;
   const options = {
     method: "GET",
