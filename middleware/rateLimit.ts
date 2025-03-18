@@ -1,8 +1,13 @@
+import { Context } from "https://deno.land/x/oak@v17.1.4/context.ts";
+
 const requestCounts = new Map<string, { count: number; lastReset: number }>();
 const RATE_LIMIT = 200;
 const WINDOW_MS = 60 * 1000;
 
-export const rateLimit = async (ctx: any, next: any) => {
+export const rateLimitMiddleware = async (
+  ctx: Context,
+  next: () => Promise<unknown>
+) => {
   const ip = ctx.request.ip || "unknown";
   const now = Date.now();
 

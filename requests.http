@@ -1,0 +1,12 @@
+POST http://localhost:3000/api/registration/api-key HTTP/1.1
+content-type: application/json
+
+{
+    "emailAddress": "swnofer@gmail.com"
+}
+
+### 
+
+GET http://localhost:3000/api/tv/random-episode?seriesId=1447
+Content-Type: application/json
+X-API-Key: c17b242a-ab82-45e9-9ca0-8a79474f875e

@@ -3,11 +3,16 @@ import { load } from "https://deno.land/std@0.186.0/dotenv/mod.ts";
 import { getRandomEpisode } from "./use-cases/tv/getRandomEpisode.ts";
 import { searchTvShows } from "./use-cases/tv/searchTvShows.ts";
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
-import { rateLimit } from "./middleware/rateLimit.ts";
+import { rateLimitMiddleware } from "./middleware/rateLimit.ts";
+import { apiKeyMiddleware } from "./middleware/apiKey.ts";
+import { createApiKey } from "./use-cases/registration/createApiKey.ts";
+import process from "node:process";
 
 // Load environment variables
 const env = await load();
 const PORT = parseInt(env.PORT) || 3000;
+
+process.env.DENO_KV_ACCESS_TOKEN = env.DENO_KV_ACCESS_TOKEN;
 
 // API Routes
 const router = new Router();
@@ -39,9 +44,16 @@ router.get("/api/tv/search", async (ctx) => {
   ctx.response.body = response;
 });
 
+router.post("/api/registration/api-key", async (ctx) => {
+  const requestBody = await ctx.request.body.json();
+  const response = await createApiKey(requestBody.emailAddress);
+  ctx.response.body = response;
+});
+
 // Start the server
 const app = new Application();
-app.use(rateLimit);
+app.use(rateLimitMiddleware);
+app.use(apiKeyMiddleware);
 app.use(router.routes());
 app.use(router.allowedMethods());
 console.log(`Server running on port ${PORT}`);

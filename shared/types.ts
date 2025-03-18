@@ -5,6 +5,7 @@ export interface Result<T> {
 }
 
 export interface RandomEpisode {
+  seriesId: number;
   season: number;
   episode: number;
   name: string;
@@ -29,6 +30,7 @@ export interface TvShow {
 }
 
 export interface TmdbEpisode {
+  show_id: number;
   episode_number: number;
   name: string;
   overview: string;

@@ -1,6 +1,3 @@
-// require("../../shared/types");
-// require("dotenv").config();
-
 import { RandomEpisode, Result, TmdbEpisode } from "../../shared/types.ts";
 import { load } from "https://deno.land/std@0.186.0/dotenv/mod.ts";
 
@@ -10,6 +7,7 @@ import { load } from "https://deno.land/std@0.186.0/dotenv/mod.ts";
  * @returns {Promise<Result<RandomEpisode>>}
  */
 export async function getRandomEpisode(seriesId: number) {
+  console.log("[getRandomEpisode] Getting random episode... ***");
   const env = await load();
   const TMDB_API_KEY = env.TMDB_API_KEY ?? Deno.env.get("TMDB_API_KEY");
   const options = {
@@ -45,6 +43,7 @@ export async function getRandomEpisode(seriesId: number) {
       if (seasonData.episodes && seasonData.episodes.length > 0) {
         seasonData.episodes.forEach((episode: TmdbEpisode) => {
           allEpisodes.push({
+            seriesId: episode.show_id,
             season,
             episode: episode.episode_number,
             name: episode.name,
@@ -69,13 +68,17 @@ export async function getRandomEpisode(seriesId: number) {
     const randomEpisode =
       allEpisodes[Math.floor(Math.random() * allEpisodes.length)];
 
+    console.log(
+      `[getRandomEpisode] Random episode: Series ID ${randomEpisode.seriesId}, Season Number ${randomEpisode.season}, Episode Number ${randomEpisode.episode}`
+    );
+
     return {
       success: true,
       data: randomEpisode,
       message: "Random episode selected successfully.",
     } as Result<RandomEpisode>;
   } catch (error: unknown) {
-    console.error("Error fetching episodes:", error);
+    console.error("[getRandomEpisode] Error fetching episodes:", error);
 
     return {
       success: false,
