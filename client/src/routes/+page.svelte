@@ -38,6 +38,8 @@
 		event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
 	) {
 		event.preventDefault();
+		flippedCards = new Map<number, boolean>();
+		randomEpisodes = new Map<number, RandomEpisode>();
 		const data = new FormData(event.currentTarget);
 		query = data.get('query') as string;
 		currentPage = 1; // Reset to first page on new search
@@ -131,7 +133,9 @@
 							<img
 								class="h-64 w-full object-cover"
 								alt={tvShow.name}
-								src={'https://image.tmdb.org/t/p/w500' + tvShow.posterPath}
+								src={tvShow.posterPath
+									? 'https://image.tmdb.org/t/p/w500' + tvShow.posterPath
+									: 'https://placehold.co/600x400?text=No\\nImage'}
 							/>
 							<div class="flex flex-col items-center p-4">
 								<h2 class="mb-2 text-center text-lg font-semibold">{tvShow.name}</h2>
@@ -159,9 +163,15 @@
 								<h2 class="mb-2 text-center text-lg font-semibold">
 									{randomEpisodes.get(tvShow.id)?.name}
 								</h2>
-								<p>Season Number: {randomEpisodes.get(tvShow.id)?.season}</p>
-								<p>Episode Number: {randomEpisodes.get(tvShow.id)?.episode}</p>
-								<p>Overview: {randomEpisodes.get(tvShow.id)?.overview}</p>
+								<p class="px-2 text-center text-sm">
+									Season Number: {randomEpisodes.get(tvShow.id)?.season}
+								</p>
+								<p class="px-2 text-center text-sm">
+									Episode Number: {randomEpisodes.get(tvShow.id)?.episode}
+								</p>
+								<p class="px-2 text-center text-sm">
+									{randomEpisodes.get(tvShow.id)?.overview}
+								</p>
 								<button
 									class="mt-auto cursor-pointer rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
 									onclick={() => toggleFlip(i, tvShow.id)}

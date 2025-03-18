@@ -23,6 +23,18 @@ jobs:
         with:
           deno-version: v2.x
 
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Adjust based on your project's requirements
+
+      - name: Install dependencies and build client
+        run: |
+          cd client
+          npm install
+          npm run build
+          rm -rf node_modules
+
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
