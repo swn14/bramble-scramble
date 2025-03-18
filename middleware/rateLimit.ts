@@ -11,13 +11,16 @@ export const rateLimitMiddleware = async (
   const ip = ctx.request.ip || "unknown";
   const now = Date.now();
 
-  let userData = requestCounts.get(ip) || { count: 0, lastReset: now };
+  let userData = requestCounts.get(ip);
 
-  if (now - userData.lastReset > WINDOW_MS) {
+  if (!userData || now - userData.lastReset > WINDOW_MS) {
     userData = { count: 0, lastReset: now };
   }
 
   userData.count++;
+
+  // **Ensure the updated userData is set before checking limit**
+  requestCounts.set(ip, userData);
 
   if (userData.count > RATE_LIMIT) {
     ctx.response.status = 429;
@@ -25,6 +28,5 @@ export const rateLimitMiddleware = async (
     return;
   }
 
-  requestCounts.set(ip, userData);
   await next();
 };

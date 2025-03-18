@@ -1,0 +1,8 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+h1 {
+	font-size: var(--text-6xl);
+	font-family: 'Knewave', system-ui;
+}

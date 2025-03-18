@@ -19,6 +19,7 @@ export async function createApiKey(email: string) {
         message: "Invalid email address",
       } as Result<string>;
     }
+    process.env.DENO_KV_ACCESS_TOKEN = env.DENO_KV_ACCESS_TOKEN;
     const kv = await Deno.openKv(env.KV_URL);
     const apiKey = randomUUID();
     const expirationDate = getFutureDateInMs(
@@ -58,7 +59,7 @@ export async function createApiKey(email: string) {
 }
 
 function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return emailRegex.test(email);
 }
 

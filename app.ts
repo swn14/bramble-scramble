@@ -12,7 +12,7 @@ import process from "node:process";
 const env = await load();
 const PORT = parseInt(env.PORT) || 3000;
 
-process.env.KV_ACCESS_TOKEN = env.KV_ACCESS_TOKEN;
+process.env.DENO_KV_ACCESS_TOKEN = env.DENO_KV_ACCESS_TOKEN;
 
 // API Routes
 const router = new Router();
@@ -52,6 +52,32 @@ router.post("/api/registration/api-key", async (ctx) => {
 
 // Start the server
 const app = new Application();
+// Serve static files and handle client-side routing
+app.use(async (ctx, next) => {
+  const url = ctx.request.url.pathname;
+  if (url.startsWith("/api")) {
+    await next();
+    return;
+  }
+  const staticOutputRoot = `${Deno.cwd()}/client/.svelte-kit/output`;
+  const staticRoot = `${staticOutputRoot}/prerendered/pages`;
+  try {
+    if (url.endsWith(".js") || url.endsWith(".css")) {
+      await ctx.send({
+        root: `${staticOutputRoot}/client`,
+      });
+    } else {
+      await ctx.send({
+        root: staticRoot,
+        index: "index.html",
+        path: `${ctx.request.url.pathname}.html`,
+      });
+    }
+  } catch {
+    // If no static file is found, serve index.html (for Svelte client-side routing)
+    await ctx.send({ root: staticRoot, index: "index.html" });
+  }
+});
 app.use(rateLimitMiddleware);
 app.use(apiKeyMiddleware);
 app.use(router.routes());
