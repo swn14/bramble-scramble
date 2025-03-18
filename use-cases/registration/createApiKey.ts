@@ -19,7 +19,7 @@ export async function createApiKey(email: string) {
         message: "Invalid email address",
       } as Result<string>;
     }
-    const kv = await Deno.openKv(env.DENO_KV_URL);
+    const kv = await Deno.openKv(env.KV_URL);
     const apiKey = randomUUID();
     const expirationDate = getFutureDateInMs(
       parseInt(env.API_KEY_EXPIRATION_IN_DAYS)

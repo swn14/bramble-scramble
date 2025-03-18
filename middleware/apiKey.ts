@@ -20,7 +20,7 @@ export const apiKeyMiddleware = async (
     return;
   }
 
-  const kv = await Deno.openKv(env.DENO_KV_URL);
+  const kv = await Deno.openKv(env.KV_URL);
   const registeredClient = await kv.get([`api-key#${clientApiKey}`]);
   if (!registeredClient.value) {
     ctx.response.status = 401;
