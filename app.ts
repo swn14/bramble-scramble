@@ -59,7 +59,7 @@ app.use(async (ctx, next) => {
     return;
   }
 
-  let staticRoot = "./client/dist";
+  let staticRoot = "./client/build";
   if (env.ENVIRONMENT !== "local") {
     staticRoot = "./client-build";
   }

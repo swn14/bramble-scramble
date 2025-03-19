@@ -55,7 +55,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: client-build
-          path: client-build
 
       - name: Check artifacts
         run: |
