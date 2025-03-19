@@ -66,5 +66,3 @@ jobs:
           project: "sheldonnofe-bramble-scr-68"
           entrypoint: "app.ts"
           root: "."
-          import-map: "./deno.json"
-          include: "./client/build"
