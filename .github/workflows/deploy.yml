@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: client-build
-          path: build
+          path: client/build
           retention-days: 1
 
   deploy:
