@@ -59,6 +59,7 @@ jobs:
       - name: Move client build to correct path
         run: |
           ls -la
+          mkdir client/build
           cp -R build/* client/build
           ls -la client/build
 
