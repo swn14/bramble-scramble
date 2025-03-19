@@ -33,6 +33,7 @@ jobs:
           cd client
           npm install
           npm run build
+          cd ..
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
