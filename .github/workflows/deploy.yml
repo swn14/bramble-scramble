@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: client-build
-          path: .svelte-kit
+          path: build
           retention-days: 1
 
   deploy:

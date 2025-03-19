@@ -59,12 +59,11 @@ app.use(async (ctx, next) => {
     await next();
     return;
   }
-  const staticOutputRoot = `${Deno.cwd()}/client/.svelte-kit/output`;
-  const staticRoot = `${staticOutputRoot}/prerendered/pages`;
+  const staticRoot = `${Deno.cwd()}/client/build`;
   try {
     if (url.endsWith(".js") || url.endsWith(".css")) {
       await ctx.send({
-        root: `${staticOutputRoot}/client`,
+        root: staticRoot,
       });
     } else {
       await ctx.send({
