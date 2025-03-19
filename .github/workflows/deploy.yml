@@ -55,7 +55,6 @@ jobs:
         with:
           name: client-build
           path: client/build
-          merge-multiple: true
 
       - name: Display structure of downloaded files
         run: ls -R client/build
