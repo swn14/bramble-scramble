@@ -59,10 +59,7 @@ app.use(async (ctx, next) => {
     return;
   }
 
-  let staticRoot = `${Deno.cwd()}/client/build`;
-  if (env.ENVIRONMENT !== "local") {
-    staticRoot = `${Deno.cwd()}/client-build`;
-  }
+  const staticRoot = `${Deno.cwd()}/client/build`;
 
   console.log(`Looking for static files in: ${staticRoot}`);
   for await (const dirEntry of Deno.readDir(staticRoot)) {

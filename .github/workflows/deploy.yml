@@ -54,7 +54,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: client-build
-          path: client-build
+          path: client/build
           merge-multiple: true
 
       - name: Upload to Deno Deploy
