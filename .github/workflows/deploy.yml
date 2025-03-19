@@ -33,6 +33,13 @@ jobs:
           path: client
           retention-days: 1
 
+      - name: Move client build to correct path
+        run: |
+          ls -la
+          mkdir client
+          cp -R build/* client/build
+          ls -la client/build
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
