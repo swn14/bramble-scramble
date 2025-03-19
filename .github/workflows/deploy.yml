@@ -55,10 +55,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: client-build
-
-      - name: Check artifacts
-        run: |
-          ls -la client-build
+          path: client-build
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
