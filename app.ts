@@ -59,17 +59,17 @@ app.use(async (ctx, next) => {
     return;
   }
 
-  const staticRoot = `${Deno.cwd()}/client/build`;
+  // const staticRoot = `${Deno.cwd()}/client/build`;
 
   try {
     await ctx.send({
-      root: staticRoot,
+      root: Deno.cwd(),
       index: "index.html",
     });
   } catch {
     // If file not found, return index.html for SPA handling
     await ctx.send({
-      root: staticRoot,
+      root: Deno.cwd(),
       path: "index.html",
     });
   }
