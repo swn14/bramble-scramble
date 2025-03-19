@@ -56,6 +56,12 @@ jobs:
         with:
           name: client-build
 
+      - name: Check artifacts
+        run: |
+          ls -la
+          ls -la client-build
+          ls -la client
+
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
