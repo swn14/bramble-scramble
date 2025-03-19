@@ -56,9 +56,11 @@ jobs:
         with:
           name: client-build
           path: client-build
+          merge-multiple: true
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "sheldonnofe-bramble-scr-68"
           entrypoint: "app.ts"
+          root: "."
