@@ -64,3 +64,5 @@ jobs:
           entrypoint: "app.ts"
           root: "./"
           import-map: "./deno.json"
+          include: |
+            client-build
