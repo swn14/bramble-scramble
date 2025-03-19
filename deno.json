@@ -4,10 +4,6 @@
     "exclude": [
       "**/node_modules"
     ],
-    "include": [
-      "client/build",
-      "."
-    ],
     "entrypoint": "app.ts"
   }
 }
