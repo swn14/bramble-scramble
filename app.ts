@@ -64,7 +64,10 @@ app.use(async (ctx, next) => {
     staticRoot = "./client-build";
   }
 
-  console.log(`Serving static files from: ${staticRoot}`);
+  console.log(`Looking for static files in: ${staticRoot}`);
+  for await (const dirEntry of Deno.readDir(staticRoot)) {
+    console.log(dirEntry.name);
+  }
 
   try {
     await ctx.send({
