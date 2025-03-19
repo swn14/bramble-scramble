@@ -59,7 +59,10 @@ app.use(async (ctx, next) => {
     await next();
     return;
   }
-  const staticRoot = `${Deno.cwd()}/client/build`;
+  let staticRoot = `${Deno.cwd()}/client/build`;
+  if (env.ENVIRONMENT != "local") {
+    staticRoot = `${Deno.cwd()}/build`;
+  }
   try {
     if (url.endsWith(".js") || url.endsWith(".css")) {
       await ctx.send({

@@ -56,13 +56,6 @@ jobs:
         with:
           name: client-build
 
-      - name: Move client build to correct path
-        run: |
-          ls -la
-          mkdir client/build
-          cp -R build/* client/build
-          ls -la client/build
-
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
