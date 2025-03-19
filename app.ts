@@ -52,26 +52,16 @@ router.post("/api/registration/api-key", async (ctx) => {
 
 // Start the server
 const app = new Application();
+// First we try to serve static files from the _site folder. If that fails, we
+// fall through to the router below.
 app.use(async (ctx, next) => {
-  const url = ctx.request.url.pathname;
-  if (url.startsWith("/api")) {
-    await next();
-    return;
-  }
-
-  // const staticRoot = `${Deno.cwd()}/client/build`;
-
   try {
     await ctx.send({
-      root: Deno.cwd(),
+      root: `${Deno.cwd()}/client/build`,
       index: "index.html",
     });
   } catch {
-    // If file not found, return index.html for SPA handling
-    await ctx.send({
-      root: Deno.cwd(),
-      path: "index.html",
-    });
+    next();
   }
 });
 
