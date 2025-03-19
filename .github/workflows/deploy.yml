@@ -57,6 +57,9 @@ jobs:
           path: client/build
           merge-multiple: true
 
+      - name: Display structure of downloaded files
+        run: ls -R client/build
+
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
