@@ -57,7 +57,9 @@ jobs:
           path: client/build
 
       - name: Display structure of downloaded files
-        run: ls -R client/build
+        run: |
+          ls -R client/build
+          cp -R client/build/* client/build
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
