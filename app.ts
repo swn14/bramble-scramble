@@ -52,34 +52,34 @@ router.post("/api/registration/api-key", async (ctx) => {
 
 // Start the server
 const app = new Application();
-// Serve static files and handle client-side routing
 app.use(async (ctx, next) => {
   const url = ctx.request.url.pathname;
   if (url.startsWith("/api")) {
     await next();
     return;
   }
-  let staticRoot = `${Deno.cwd()}/client/build`;
-  if (env.ENVIRONMENT != "local") {
-    staticRoot = `${Deno.cwd()}/client-build`;
+
+  let staticRoot = "./client/dist";
+  if (env.ENVIRONMENT !== "local") {
+    staticRoot = "./client-build";
   }
+
+  console.log(`Serving static files from: ${staticRoot}`);
+
   try {
-    if (url.endsWith(".js") || url.endsWith(".css")) {
-      await ctx.send({
-        root: staticRoot,
-      });
-    } else {
-      await ctx.send({
-        root: staticRoot,
-        index: "index.html",
-        path: `${ctx.request.url.pathname}.html`,
-      });
-    }
+    await ctx.send({
+      root: staticRoot,
+      index: "index.html",
+    });
   } catch {
-    // If no static file is found, serve index.html (for Svelte client-side routing)
-    await ctx.send({ root: staticRoot, index: "index.html" });
+    // If file not found, return index.html for SPA handling
+    await ctx.send({
+      root: staticRoot,
+      path: "index.html",
+    });
   }
 });
+
 app.use(rateLimitMiddleware);
 app.use(apiKeyMiddleware);
 app.use(router.routes());
