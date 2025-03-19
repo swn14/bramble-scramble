@@ -33,13 +33,6 @@ jobs:
           path: client
           retention-days: 1
 
-      - name: Move client build to correct path
-        run: |
-          ls -la
-          mkdir client
-          cp -R build/* client/build
-          ls -la client/build
-
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -62,6 +55,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: client-build
+
+      - name: Move client build to correct path
+        run: |
+          ls -la
+          cp -R build/* client/build
+          ls -la client/build
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
