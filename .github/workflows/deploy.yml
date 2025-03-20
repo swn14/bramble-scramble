@@ -32,7 +32,9 @@ jobs:
         run: "npm --prefix ./client install"
 
       - name: Build step
-        run: "npm --prefix ./client run build"
+        run: |
+          npm --prefix ./client run build
+          ls -la
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
