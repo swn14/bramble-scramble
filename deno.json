@@ -2,9 +2,11 @@
   "deploy": {
     "project": "a07412d6-4a23-44af-952f-d1f751fc7903",
     "exclude": [
-      "**/node_modules"
+      "**/node_modules",
+      ".env"
     ],
-    "entrypoint": "deploy.ts"
+    "include": [],
+    "entrypoint": "app.ts"
   },
   "tasks": {
     "build": "deno run -A build.ts",

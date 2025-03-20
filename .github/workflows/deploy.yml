@@ -24,8 +24,7 @@ jobs:
           deno-version: v2.x
 
       - name: Upload to Deno Deploy
-        uses: denoland/deployctl@v1
+        uses: ./.github/actions/custom-deploy
         with:
           project: "sheldonnofe-bramble-scr-68"
-          entrypoint: "deploy.ts"
-          root: "./"
+          entrypoint: "app.ts"
