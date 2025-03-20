@@ -50,3 +50,4 @@ jobs:
         with:
           project: "sheldonnofe-bramble-scr-68"
           entrypoint: "app.ts"
+          root: "./"
