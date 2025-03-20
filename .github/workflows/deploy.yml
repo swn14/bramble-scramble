@@ -30,10 +30,20 @@ jobs:
 
       - name: Install dependencies and build client
         run: |
-          cd client
-          npm install
-          npm run build
-          cd ..
+          npm --prefix ./client install
+          npm --prefix ./client run build
+
+      - name: Upload client artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-build
+          path: client-build
+
+      - name: Download client artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: client-build
+          path: client-build
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1

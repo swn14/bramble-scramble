@@ -59,7 +59,7 @@ app.use(async (ctx, next) => {
     return;
   }
 
-  const staticRoot = `${Deno.cwd()}/client/build`;
+  const staticRoot = `${Deno.cwd()}/client-build`;
 
   try {
     await ctx.send({
