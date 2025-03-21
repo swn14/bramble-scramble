@@ -1,9 +1,9 @@
 {
   "deploy": {
-    "project": "a07412d6-4a23-44af-952f-d1f751fc7903",
+    "project": "59db2e77-5f5f-468d-9ee9-6429bd11b313",
     "exclude": [
-      "**/node_modules",
-      ".env"
+      ".env",
+      "**/node_modules"
     ],
     "include": [],
     "entrypoint": "app.ts"

@@ -15,7 +15,7 @@
 
 <div class="mt-4 flex justify-center">
 	<button
-		class="mx-1 rounded bg-gray-200 px-3 py-2 hover:bg-gray-300 disabled:opacity-50"
+		class="mx-1 cursor-pointer rounded bg-amber-400 px-3 py-2 font-bold text-white hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-50"
 		on:click={() => goToPage(currentPage - 1)}
 		disabled={currentPage === 1}
 	>
@@ -24,11 +24,12 @@
 
 	{#each Array(totalPages) as _, i}
 		<button
-			class="mx-1 rounded px-3 py-2"
-			class:bg-blue-500={currentPage === i + 1}
+			class="mx-1 cursor-pointer rounded px-5 py-2 font-bold"
+			class:bg-amber-400={currentPage === i + 1}
 			class:text-white={currentPage === i + 1}
 			class:bg-gray-200={currentPage !== i + 1}
-			class:hover:bg-gray-300={currentPage !== i + 1}
+			class:hover:bg-amber-400={currentPage !== i + 1}
+			class:hover:text-white={currentPage !== i + 1}
 			on:click={() => goToPage(i + 1)}
 		>
 			{i + 1}
@@ -36,7 +37,7 @@
 	{/each}
 
 	<button
-		class="mx-1 rounded bg-gray-200 px-3 py-2 hover:bg-gray-300 disabled:opacity-50"
+		class="mx-1 cursor-pointer rounded bg-amber-400 px-3 py-2 font-bold text-white hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-50"
 		on:click={() => goToPage(currentPage + 1)}
 		disabled={currentPage === totalPages}
 	>

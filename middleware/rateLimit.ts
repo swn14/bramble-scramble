@@ -23,6 +23,7 @@ export const rateLimitMiddleware = async (
   requestCounts.set(ip, userData);
 
   if (userData.count > RATE_LIMIT) {
+    console.log("[rateLimitMiddleware] Too many requests");
     ctx.response.status = 429;
     ctx.response.body = { error: "Too many requests" };
     return;

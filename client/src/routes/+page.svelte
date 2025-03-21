@@ -28,10 +28,11 @@
 		const response = await fetch(`/api/tv/search?query=${query}&pageNumber=${currentPage}`, {
 			method: 'GET',
 			headers: {
-				'x-api-key': 'c17b242a-ab82-45e9-9ca0-8a79474f875e'
+				'X-Api-Key': 'c5478ad6-9ae6-4060-b604-8aae39f8992f'
 			}
 		});
 		searchResults = await response.json();
+		totalPages = searchResults.data?.totalPages ?? 10;
 	}
 
 	async function handleSubmit(
@@ -58,7 +59,7 @@
 		const response = await fetch(`/api/tv/random-episode?seriesId=${seriesId}`, {
 			method: 'GET',
 			headers: {
-				'x-api-key': 'c17b242a-ab82-45e9-9ca0-8a79474f875e'
+				'X-Api-Key': 'c5478ad6-9ae6-4060-b604-8aae39f8992f'
 			}
 		});
 		const randomEpisodeResponse: Result<RandomEpisode> = await response.json();
@@ -72,7 +73,7 @@
 	}
 </script>
 
-<div class="bg-white dark:bg-slate-950">
+<div class="h-dvh min-h-fit bg-white dark:bg-slate-950">
 	<section>
 		<div class="flex justify-center">
 			<h1 class="text-black dark:text-amber-400">Tellyport</h1>

@@ -1,7 +1,19 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import '../app.css';
 	let { children } = $props();
 	let thisYear = new Date().getFullYear();
+
+	onMount(() => {
+		const theme = localStorage.getItem('theme');
+		const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+		if (theme === 'dark' || (!theme && prefersDark)) {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
+	});
 
 	function toggleDarkMode(event: Event) {
 		event.preventDefault();
@@ -16,12 +28,8 @@
 	}
 </script>
 
-<!-- <nav class="topnav flex min-h-[50px] w-full items-center bg-white dark:bg-slate-900">
-	<a class="flex text-white">Home</a>
-</nav> -->
-
 <nav class="bg-white dark:bg-slate-800">
-	<div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+	<div class="mx-auto">
 		<div class="relative flex h-16 items-center justify-between">
 			<div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
 				<!-- Mobile menu button-->
@@ -74,9 +82,8 @@
 			<div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
 				<div class="hidden sm:ml-6 sm:block">
 					<div class="flex space-x-4">
-						<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
 						<a
-							href="#"
+							href="/"
 							class="rounded-md bg-slate-900 px-3 py-2 text-sm font-medium text-white"
 							aria-current="page">Home</a
 						>
@@ -109,7 +116,7 @@
 		<div class="space-y-1 px-2 pb-3 pt-2">
 			<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
 			<a
-				href="#"
+				href="/"
 				class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
 				aria-current="page">Home</a
 			>
@@ -119,12 +126,14 @@
 
 {@render children()}
 
-<footer class="bg-linear-95 min-h-[50px] from-slate-950 to-gray-700">
-	<div class="flex justify-end p-4">
-		<p class="text-slate-400">Copyright ©{thisYear} Sheldon Nofer. All Rights Reserved</p>
+<footer class="dark:bg-linear-95 min-h-[50px] bg-white dark:from-slate-950 dark:to-gray-700">
+	<div class="flex justify-end pl-4 pr-4 pt-4">
+		<p class="text-black dark:text-slate-400">
+			Copyright ©{thisYear} Sheldon Nofer. All Rights Reserved
+		</p>
 	</div>
-	<div class="flex justify-end">
-		<p class="text-slate-400">
+	<div class="flex justify-end pb-4 pl-4 pr-4">
+		<p class="text-black dark:text-slate-400">
 			TV and Movie data provided my <a
 				class="visited:text-purple-60 text-blue-600 underline hover:text-blue-800"
 				href="https://www.themoviedb.org/"

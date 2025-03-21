@@ -12,7 +12,9 @@ import process from "node:process";
 const env = await load();
 const PORT = parseInt(env.PORT) || 3000;
 
-process.env.DENO_KV_ACCESS_TOKEN = env.DENO_KV_ACCESS_TOKEN;
+if (env.ENVIRONMENT === "local") {
+  process.env.DENO_KV_ACCESS_TOKEN = env.DENO_KV_ACCESS_TOKEN;
+}
 
 // API Routes
 const router = new Router();

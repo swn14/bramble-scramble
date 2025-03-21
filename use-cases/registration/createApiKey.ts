@@ -19,18 +19,12 @@ export async function createApiKey(email: string) {
         message: "Invalid email address",
       } as Result<string>;
     }
-    process.env.DENO_KV_ACCESS_TOKEN = env.DENO_KV_ACCESS_TOKEN;
-    const kv = await Deno.openKv(env.KV_URL);
+    const kv = await Deno.openKv(
+      env.ENVIRONMENT === "local" ? env.KV_URL : undefined
+    );
     const apiKey = randomUUID();
-    const expirationDate = getFutureDateInMs(
-      parseInt(env.API_KEY_EXPIRATION_IN_DAYS)
-    );
 
-    const result = await kv.set(
-      [`api-key#${apiKey}`],
-      { email, apiKey },
-      { expireIn: expirationDate }
-    );
+    const result = await kv.set([`api-key#${apiKey}`], { email, apiKey });
     if (!result.ok) {
       return {
         success: false,
@@ -64,5 +58,6 @@ function isValidEmail(email: string): boolean {
 }
 
 function getFutureDateInMs(days: number): number {
-  return new Date(Date.now() + days * 24 * 60 * 60 * 1000).getTime();
+  const milliseconds = days * 24 * 60 * 60 * 1000;
+  return milliseconds;
 }

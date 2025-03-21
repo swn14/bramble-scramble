@@ -14,16 +14,22 @@ export const apiKeyMiddleware = async (
       return;
     }
     const env = await load();
-    const clientApiKey = ctx.request.headers.get("x-api-key");
+    const clientApiKey = ctx.request.headers.get("X-Api-Key");
     if (!clientApiKey) {
+      console.log("[apiKeyMiddleware] Missing API Key Header");
       ctx.response.status = 401;
       ctx.response.body = { error: "Unauthorized" };
       return;
     }
 
-    const kv = await Deno.openKv(env.KV_URL);
+    const kv = await Deno.openKv(
+      env.ENVIRONMENT === "local" ? env.KV_URL : undefined
+    );
+
     const registeredClient = await kv.get([`api-key#${clientApiKey}`]);
+    console.log(JSON.stringify(registeredClient));
     if (!registeredClient.value) {
+      console.log("[apiKeyMiddleware] Invalid API Key");
       ctx.response.status = 401;
       ctx.response.body = { error: "Unauthorized" };
       return;

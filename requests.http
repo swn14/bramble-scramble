@@ -1,4 +1,4 @@
-POST http://localhost:3000/api/registration/api-key HTTP/1.1
+POST https://swn14-tellyport.deno.dev/api/registration/api-key HTTP/1.1
 content-type: application/json
 
 {
