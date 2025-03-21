@@ -10,7 +10,7 @@
   },
   "tasks": {
     "build": "deno run -A build.ts",
-    "serve": "deno run -A app.ts",
+    "serve": "deno run --unstable-kv -A app.ts",
     "start": "deno task build && deno task serve"
   }
 }

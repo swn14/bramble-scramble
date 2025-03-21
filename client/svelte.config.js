@@ -13,8 +13,7 @@ const config = {
 		// See https://svelte.dev/docs/kit/adapters for more information about adapters.
 		adapter: adapter({
 			pages: '../client-build', // Adjust this path as needed
-			assets: '../client-build',
-			fallback: 'index.html' // Optional: Useful for SPA mode
+			assets: '../client-build'
 		})
 	}
 };

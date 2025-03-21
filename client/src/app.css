@@ -2,7 +2,19 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 h1 {
 	font-size: var(--text-6xl);
 	font-family: 'Knewave', system-ui;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	/* overflow-x: hidden; */
 }

@@ -72,121 +72,125 @@
 	}
 </script>
 
-<section>
-	<div class="flex justify-center">
-		<h1>Tellyport</h1>
-	</div>
-</section>
-<section class="m-4">
-	<div class="flex justify-items-stretch">
-		<form onsubmit={handleSubmit} class="grow">
-			<label
-				for="default-search"
-				class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white">Search</label
-			>
-			<div class="relative grow">
-				<div class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
-					<svg
-						class="h-4 w-4 text-gray-500 dark:text-gray-400"
-						aria-hidden="true"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 20 20"
-					>
-						<path
-							stroke="currentColor"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-						/>
-					</svg>
-				</div>
-				<input
-					type="search"
-					name="query"
-					class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-					placeholder="Search for TV shows..."
-					required
-				/>
-				<button
-					type="submit"
-					class="absolute bottom-2.5 end-2.5 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-					>Search</button
-				>
-			</div>
-		</form>
-	</div>
-</section>
-<section class="m-4">
-	{#if searchResults != null && searchResults.data != null}
-		<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-			{#each searchResults.data.results as tvShow, i}
-				<div class="flip-container">
-					<article class="flipper {flippedCards.get(i) ? 'flipped' : ''}">
-						<!-- Front Side -->
-						<div
-							class="front overflow-hidden rounded-lg bg-white shadow-lg {flippedCards.get(i)
-								? 'hidden'
-								: 'visible'}"
-						>
-							<img
-								class="h-64 w-full object-cover"
-								alt={tvShow.name}
-								src={tvShow.posterPath
-									? 'https://image.tmdb.org/t/p/w500' + tvShow.posterPath
-									: 'https://placehold.co/600x400?text=No\\nImage'}
-							/>
-							<div class="flex flex-col items-center p-4">
-								<h2 class="mb-2 text-center text-lg font-semibold">{tvShow.name}</h2>
-								<button
-									class="mt-auto cursor-pointer rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
-									onclick={() => toggleFlip(i, tvShow.id)}
-								>
-									Shuffle
-								</button>
-							</div>
-						</div>
-
-						<!-- Back Side -->
-						<div
-							class="back overflow-hidden rounded-lg bg-white shadow-lg {flippedCards.get(i)
-								? 'visible'
-								: 'hidden'}"
-						>
-							<img
-								class="h-64 w-full object-cover"
-								alt={randomEpisodes.get(tvShow.id)?.name}
-								src={'https://image.tmdb.org/t/p/w500' + randomEpisodes.get(tvShow.id)?.imagePath}
-							/>
-							<div class="flex flex-col items-center p-4">
-								<h2 class="mb-2 text-center text-lg font-semibold">
-									{randomEpisodes.get(tvShow.id)?.name}
-								</h2>
-								<p class="px-2 text-center text-sm">
-									Season Number: {randomEpisodes.get(tvShow.id)?.season}
-								</p>
-								<p class="px-2 text-center text-sm">
-									Episode Number: {randomEpisodes.get(tvShow.id)?.episode}
-								</p>
-								<p class="px-2 text-center text-sm">
-									{randomEpisodes.get(tvShow.id)?.overview}
-								</p>
-								<button
-									class="mt-auto cursor-pointer rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
-									onclick={() => toggleFlip(i, tvShow.id)}
-								>
-									Start Over
-								</button>
-							</div>
-						</div>
-					</article>
-				</div>
-			{/each}
+<div class="bg-white dark:bg-slate-950">
+	<section>
+		<div class="flex justify-center">
+			<h1 class="text-black dark:text-amber-400">Tellyport</h1>
 		</div>
-		<Pagination {currentPage} {totalPages} on:pageChange={handlePageChange} />
+	</section>
+	<section class="p-4">
+		<div class="flex justify-items-stretch">
+			<form onsubmit={handleSubmit} class="grow">
+				<label
+					for="default-search"
+					class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white">Search</label
+				>
+				<div class="relative grow">
+					<div class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
+						<svg
+							class="h-4 w-4 text-gray-500 dark:text-gray-400"
+							aria-hidden="true"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 20 20"
+						>
+							<path
+								stroke="currentColor"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+							/>
+						</svg>
+					</div>
+					<input
+						type="search"
+						name="query"
+						class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 ps-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+						placeholder="Search for TV shows..."
+						required
+					/>
+					<button
+						type="submit"
+						class="absolute bottom-2.5 end-2.5 rounded-lg bg-amber-400 px-4 py-2 text-sm font-medium text-white hover:bg-amber-500 focus:outline-none focus:ring-4 focus:ring-blue-300"
+						>Search</button
+					>
+				</div>
+			</form>
+		</div>
+	</section>
+	{#if searchResults != null && searchResults.data != null}
+		<section class="p-4">
+			<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+				{#each searchResults.data.results as tvShow, i}
+					<div class="flip-container">
+						<article class="flipper dark:bg-slate-800 {flippedCards.get(i) ? 'flipped' : ''}">
+							<!-- Front Side -->
+							<div
+								class="front overflow-hidden rounded-lg shadow-lg {flippedCards.get(i)
+									? 'hidden'
+									: 'visible'}"
+							>
+								<img
+									class="h-64 w-full object-cover"
+									alt={tvShow.name}
+									src={tvShow.posterPath
+										? 'https://image.tmdb.org/t/p/w500' + tvShow.posterPath
+										: 'https://placehold.co/600x400?text=No\\nImage'}
+								/>
+								<div class="flex flex-col items-center p-4">
+									<h2 class="mb-2 text-center text-lg font-semibold dark:text-white">
+										{tvShow.name}
+									</h2>
+									<button
+										class="mt-auto cursor-pointer rounded-lg bg-amber-400 px-4 py-2 text-white transition hover:bg-amber-500"
+										onclick={() => toggleFlip(i, tvShow.id)}
+									>
+										Shuffle
+									</button>
+								</div>
+							</div>
+
+							<!-- Back Side -->
+							<div
+								class="back overflow-hidden rounded-lg shadow-lg {flippedCards.get(i)
+									? 'visible'
+									: 'hidden'}"
+							>
+								<img
+									class="h-64 w-full object-cover"
+									alt={randomEpisodes.get(tvShow.id)?.name}
+									src={'https://image.tmdb.org/t/p/w500' + randomEpisodes.get(tvShow.id)?.imagePath}
+								/>
+								<div class="flex flex-col items-center p-4">
+									<h2 class="mb-2 text-center text-lg font-semibold">
+										{randomEpisodes.get(tvShow.id)?.name}
+									</h2>
+									<p class="px-2 text-center text-sm">
+										Season Number: {randomEpisodes.get(tvShow.id)?.season}
+									</p>
+									<p class="px-2 text-center text-sm">
+										Episode Number: {randomEpisodes.get(tvShow.id)?.episode}
+									</p>
+									<p class="px-2 text-center text-sm">
+										{randomEpisodes.get(tvShow.id)?.overview}
+									</p>
+									<button
+										class="mt-auto cursor-pointer rounded-lg bg-amber-400 px-4 py-2 text-white transition hover:bg-amber-500"
+										onclick={() => toggleFlip(i, tvShow.id)}
+									>
+										Start Over
+									</button>
+								</div>
+							</div>
+						</article>
+					</div>
+				{/each}
+			</div>
+			<Pagination {currentPage} {totalPages} on:pageChange={handlePageChange} />
+		</section>
 	{/if}
-</section>
+</div>
 
 <style>
 	.flip-container {
